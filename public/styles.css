@@ -1,0 +1,10 @@
+body{font-family:Arial,Helvetica,sans-serif;margin:0;padding:0}
+header{background:#222;color:#fff;padding:12px 18px;display:flex;align-items:center;justify-content:space-between}
+header a{color:#fff;text-decoration:none}
+main{padding:18px}
+.flash{padding:10px;margin:10px 0;border-radius:4px}
+.flash.error{background:#ffd6d6}
+.flash.success{background:#d6ffd6}
+.events{list-style:none;padding:0}
+.events li{padding:8px 0;border-bottom:1px solid #eee}
+.new-event input{margin-right:8px}

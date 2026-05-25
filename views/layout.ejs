@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Attendance System</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Attendance</a></h1>
+      <nav>
+        <% if (currentUser) { %>
+          <span>Signed in as <%= currentUser.name %></span>
+          <form action="/logout" method="post" style="display:inline"><button>Logout</button></form>
+        <% } else { %>
+          <a href="/login">Login</a> | <a href="/register">Register</a>
+        <% } %>
+      </nav>
+    </header>
+    <main>
+      <% if (messages.error) { %>
+        <div class="flash error"><%= messages.error.join(', ') %></div>
+      <% } %>
+      <% if (messages.success) { %>
+        <div class="flash success"><%= messages.success.join(', ') %></div>
+      <% } %>
+      <%- body %>
+    </main>
+  </body>
+</html>

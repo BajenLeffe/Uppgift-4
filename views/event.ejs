@@ -1,0 +1,20 @@
+<% layout('layout') -%>
+<h2><%= event.title %></h2>
+<div><%= new Date(event.date).toLocaleString() %></div>
+<p><%= event.description %></p>
+<p>Created by: <%= event.creator %></p>
+
+<h3>Attendees</h3>
+<ul>
+  <% attendees.forEach(a => { %>
+    <li><%= a.name %> — <%= new Date(a.attended_at).toLocaleString() %></li>
+  <% }) %>
+</ul>
+
+<% if (currentUser) { %>
+  <form action="/events/<%= event.id %>/attend" method="post">
+    <button>Mark Attendance</button>
+  </form>
+<% } else { %>
+  <p><a href="/login">Login</a> to mark attendance.</p>
+<% } %>

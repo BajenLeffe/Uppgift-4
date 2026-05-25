@@ -1,0 +1,8 @@
+<% layout('layout') -%>
+<h2>Students</h2>
+<p><a href="/students/new">Add new student</a></p>
+<ul>
+  <% students.forEach(s => { %>
+    <li><strong><%= s.name %></strong> <% if (s.student_number) { %>(#<%= s.student_number %>)<% } %></li>
+  <% }) %>
+</ul>

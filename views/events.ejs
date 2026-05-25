@@ -1,0 +1,20 @@
+<% layout('layout') -%>
+<h2>Events</h2>
+
+<% if (currentUser) { %>
+  <form action="/events" method="post" class="new-event">
+    <input name="title" placeholder="Title" required />
+    <input name="date" type="date" required />
+    <input name="description" placeholder="Short description" />
+    <button>Create Event</button>
+  </form>
+<% } %>
+
+<ul class="events">
+  <% events.forEach(e => { %>
+    <li>
+      <a href="/events/<%= e.id %>"><strong><%= e.title %></strong></a>
+      <div><%= new Date(e.date).toLocaleDateString() %> — <%= e.creator || 'Unknown' %></div>
+    </li>
+  <% }) %>
+</ul>

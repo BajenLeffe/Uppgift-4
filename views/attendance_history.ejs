@@ -1,0 +1,29 @@
+<% layout('layout') -%>
+<h2>Attendance History</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Student</th>
+      <th>Date</th>
+      <th>Status</th>
+      <th>Delay (minutes)</th>
+      <th>Recorded</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% recent.forEach(r => { %>
+      <tr>
+        <td><%= r.students ? r.students.name : 'Unknown' %></td>
+        <td><%= r.date %></td>
+        <td><strong><%= r.status %></strong></td>
+        <td><%= r.delay_minutes ? r.delay_minutes : '—' %></td>
+        <td><%= new Date(r.created_at).toLocaleString() %></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+<style>
+  table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+  th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+  th { background-color: #f0f0f0; }
+</style>

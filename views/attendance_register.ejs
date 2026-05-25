@@ -1,0 +1,33 @@
+<% layout('layout') -%>
+<h2>Register Attendance</h2>
+<form action="/attendance/register" method="post">
+  <label>Student
+    <select name="student_id" required>
+      <option value="">-- Select a student --</option>
+      <% students.forEach(s => { %>
+        <option value="<%= s.id %>"><%= s.name %></option>
+      <% }) %>
+    </select>
+  </label>
+
+  <label>Date
+    <input type="date" name="date" required value="<%= new Date().toISOString().split('T')[0] %>">
+  </label>
+
+  <label>Status
+    <select name="status" required onchange="document.getElementById('delayField').style.display = this.value === 'Försenad' ? 'block' : 'none'">
+      <option value="">-- Select status --</option>
+      <option value="Närvarande">Närvarande (Present)</option>
+      <option value="Frånvarande">Frånvarande (Absent)</option>
+      <option value="Försenad">Försenad (Delayed)</option>
+    </select>
+  </label>
+
+  <div id="delayField" style="display: none;">
+    <label>Delay Duration (minutes)
+      <input type="number" name="delay_minutes" min="0" placeholder="e.g., 15">
+    </label>
+  </div>
+
+  <button type="submit">Mark Attendance</button>
+</form>
