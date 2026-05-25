@@ -12,6 +12,14 @@
       <nav>
         <% if (currentUser) { %>
           <span>Signed in as <%= currentUser.name %></span>
+          <% if (currentUser.role === 'admin') { %>
+            | <a href="/students">Students</a>
+            | <a href="/students/new">Add Student</a>
+            | <a href="/attendance/register">Mark Attendance</a>
+            | <a href="/attendance/history">Attendance History</a>
+          <% } else if (currentUser.role === 'student') { %>
+            | <a href="/attendance/my-attendance">My Attendance</a>
+          <% } %>
           <form action="/logout" method="post" style="display:inline"><button>Logout</button></form>
         <% } else { %>
           <a href="/login">Login</a> | <a href="/register">Register</a>
