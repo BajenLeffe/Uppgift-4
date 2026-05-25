@@ -1,32 +1,49 @@
 <% layout('layout') -%>
-<h2>My Attendance</h2>
-<p>Your attendance records:</p>
-<table>
-  <thead>
-    <tr>
-      <th>Date</th>
-      <th>Status</th>
-      <th>Delay (minutes)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% if (attendance && attendance.length > 0) { %>
-      <% attendance.forEach(a => { %>
+<div style="max-width: 800px;">
+  <h2>My Attendance Record</h2>
+  <p style="color: #6b7280; margin-bottom: 25px;">Your attendance history for this period</p>
+  
+  <% if (attendance && attendance.length > 0) { %>
+    <table>
+      <thead>
         <tr>
-          <td><%= a.date %></td>
-          <td><strong><%= a.status %></strong></td>
-          <td><%= a.delay_minutes ? a.delay_minutes : '—' %></td>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Delay (minutes)</th>
         </tr>
-      <% }) %>
-    <% } else { %>
-      <tr>
-        <td colspan="3">No attendance records yet</td>
-      </tr>
-    <% } %>
-  </tbody>
-</table>
-<style>
-  table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-  th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+      </thead>
+      <tbody>
+        <% attendance.forEach(a => { %>
+          <tr>
+            <td>
+              <strong><%= new Date(a.date).toLocaleDateString('sv-SE') %></strong>
+            </td>
+            <td>
+              <% if (a.status === 'Närvarande') { %>
+                <span class="status-badge present">✓ Present</span>
+              <% } else if (a.status === 'Frånvarande') { %>
+                <span class="status-badge absent">✗ Absent</span>
+              <% } else if (a.status === 'Försenad') { %>
+                <span class="status-badge delayed">⏱ Delayed</span>
+              <% } %>
+            </td>
+            <td style="text-align: center;">
+              <% if (a.delay_minutes) { %>
+                <strong style="color: #f59e0b;"><%= a.delay_minutes %></strong> min
+              <% } else { %>
+                <span style="color: #9ca3af;">—</span>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <div style="background: #f3f4f6; padding: 40px; border-radius: 8px; text-align: center;">
+      <p style="color: #6b7280; font-size: 16px; margin: 0;">No attendance records yet.</p>
+      <p style="color: #9ca3af; font-size: 14px; margin-top: 8px;">Your attendance will appear here once registered.</p>
+    </div>
+  <% } %>
+</div>
   th { background-color: #f0f0f0; }
 </style>

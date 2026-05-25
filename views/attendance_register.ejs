@@ -1,33 +1,41 @@
 <% layout('layout') -%>
-<h2>Register Attendance</h2>
-<form action="/attendance/register" method="post">
-  <label>Student
-    <select name="student_id" required>
-      <option value="">-- Select a student --</option>
-      <% students.forEach(s => { %>
-        <option value="<%= s.id %>"><%= s.name %></option>
-      <% }) %>
-    </select>
-  </label>
+<div style="max-width: 600px;">
+  <h2>Mark Attendance</h2>
+  <p style="color: #6b7280; margin-bottom: 25px;">Register student attendance for the day</p>
 
-  <label>Date
-    <input type="date" name="date" required value="<%= new Date().toISOString().split('T')[0] %>">
-  </label>
+  <form action="/attendance/register" method="post">
+    <div>
+      <label>Select Student</label>
+      <select name="student_id" required>
+        <option value="">-- Choose a student --</option>
+        <% students.forEach(s => { %>
+          <option value="<%= s.id %>"><%= s.name %></option>
+        <% }) %>
+      </select>
+    </div>
 
-  <label>Status
-    <select name="status" required onchange="document.getElementById('delayField').style.display = this.value === 'Försenad' ? 'block' : 'none'">
-      <option value="">-- Select status --</option>
-      <option value="Närvarande">Närvarande (Present)</option>
-      <option value="Frånvarande">Frånvarande (Absent)</option>
-      <option value="Försenad">Försenad (Delayed)</option>
-    </select>
-  </label>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+      <div>
+        <label>Date</label>
+        <input type="date" name="date" required value="<%= new Date().toISOString().split('T')[0] %>">
+      </div>
 
-  <div id="delayField" style="display: none;">
-    <label>Delay Duration (minutes)
-      <input type="number" name="delay_minutes" min="0" placeholder="e.g., 15">
-    </label>
-  </div>
+      <div>
+        <label>Status</label>
+        <select name="status" required onchange="document.getElementById('delayField').style.display = this.value === 'Försenad' ? 'block' : 'none'">
+          <option value="">-- Select status --</option>
+          <option value="Närvarande">✓ Närvarande (Present)</option>
+          <option value="Frånvarande">✗ Frånvarande (Absent)</option>
+          <option value="Försenad">⏱ Försenad (Delayed)</option>
+        </select>
+      </div>
+    </div>
 
-  <button type="submit">Mark Attendance</button>
-</form>
+    <div id="delayField" style="display: none; animation: slideIn 0.3s ease;">
+      <label>Delay Duration (minutes)</label>
+      <input type="number" name="delay_minutes" min="0" placeholder="Enter delay in minutes">
+    </div>
+
+    <button type="submit" class="success" style="width: 100%; margin-top: 25px;">Mark Attendance</button>
+  </form>
+</div>

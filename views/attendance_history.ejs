@@ -1,29 +1,55 @@
 <% layout('layout') -%>
-<h2>Attendance History</h2>
-<table>
-  <thead>
-    <tr>
-      <th>Student</th>
-      <th>Date</th>
-      <th>Status</th>
-      <th>Delay (minutes)</th>
-      <th>Recorded</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% recent.forEach(r => { %>
-      <tr>
-        <td><%= r.students ? r.students.name : 'Unknown' %></td>
-        <td><%= r.date %></td>
-        <td><strong><%= r.status %></strong></td>
-        <td><%= r.delay_minutes ? r.delay_minutes : '—' %></td>
-        <td><%= new Date(r.created_at).toLocaleString() %></td>
-      </tr>
-    <% }) %>
-  </tbody>
-</table>
-<style>
-  table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-  th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-  th { background-color: #f0f0f0; }
-</style>
+<div style="max-width: 1000px;">
+  <h2>Attendance History</h2>
+  <p style="color: #6b7280; margin-bottom: 25px;">Complete record of all student attendance</p>
+  
+  <% if (recent && recent.length > 0) { %>
+    <table>
+      <thead>
+        <tr>
+          <th>Student Name</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th style="text-align: center;">Delay</th>
+          <th>Recorded At</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% recent.forEach(r => { %>
+          <tr>
+            <td>
+              <strong><%= r.students ? r.students.name : 'Unknown' %></strong>
+            </td>
+            <td>
+              <%= new Date(r.date).toLocaleDateString('sv-SE') %>
+            </td>
+            <td>
+              <% if (r.status === 'Närvarande') { %>
+                <span class="status-badge present">✓ Present</span>
+              <% } else if (r.status === 'Frånvarande') { %>
+                <span class="status-badge absent">✗ Absent</span>
+              <% } else if (r.status === 'Försenad') { %>
+                <span class="status-badge delayed">⏱ Delayed</span>
+              <% } %>
+            </td>
+            <td style="text-align: center;">
+              <% if (r.delay_minutes) { %>
+                <strong style="color: #f59e0b;"><%= r.delay_minutes %></strong> min
+              <% } else { %>
+                <span style="color: #9ca3af;">—</span>
+              <% } %>
+            </td>
+            <td style="font-size: 13px; color: #6b7280;">
+              <%= new Date(r.created_at).toLocaleString('sv-SE') %>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <div style="background: #f3f4f6; padding: 40px; border-radius: 8px; text-align: center;">
+      <p style="color: #6b7280; font-size: 16px; margin: 0;">No attendance records found.</p>
+      <p style="color: #9ca3af; font-size: 14px; margin-top: 8px;">Start marking attendance to see records here.</p>
+    </div>
+  <% } %>
+</div>

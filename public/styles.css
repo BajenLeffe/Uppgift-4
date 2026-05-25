@@ -1,10 +1,598 @@
-body{font-family:Arial,Helvetica,sans-serif;margin:0;padding:0}
-header{background:#222;color:#fff;padding:12px 18px;display:flex;align-items:center;justify-content:space-between}
-header a{color:#fff;text-decoration:none}
-main{padding:18px}
-.flash{padding:10px;margin:10px 0;border-radius:4px}
-.flash.error{background:#ffd6d6}
-.flash.success{background:#d6ffd6}
-.events{list-style:none;padding:0}
-.events li{padding:8px 0;border-bottom:1px solid #eee}
-.new-event input{margin-right:8px}
+/* ===== Global Styles ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1e40af;
+  --primary-light: #dbeafe;
+  --secondary: #7c3aed;
+  --success: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --light: #f3f4f6;
+  --border: #e5e7eb;
+  --text: #1f2937;
+  --text-light: #6b7280;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+  padding-bottom: 40px;
+}
+
+/* ===== Header ===== */
+header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: white;
+  padding: 20px 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+header h1 a {
+  color: white;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+header h1 a:hover {
+  opacity: 0.9;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+nav a:hover {
+  background: rgba(255, 255, 255, 0.2);
+  text-decoration: none;
+}
+
+nav span {
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 500;
+  font-size: 14px;
+}
+
+nav button {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+nav button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: white;
+}
+
+/* ===== Main Content ===== */
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text);
+  margin: 25px 0 15px 0;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 28px;
+  color: var(--primary);
+  border-bottom: 3px solid var(--primary-light);
+  padding-bottom: 10px;
+}
+
+h3 {
+  font-size: 20px;
+  color: var(--primary);
+}
+
+p {
+  color: var(--text-light);
+  margin-bottom: 15px;
+  font-size: 15px;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+/* ===== Flash Messages ===== */
+.flash {
+  padding: 16px 20px;
+  margin: 20px 0;
+  border-radius: 8px;
+  border-left: 4px solid;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.flash.error {
+  background: #fee2e2;
+  border-color: var(--danger);
+  color: #991b1b;
+}
+
+.flash.success {
+  background: #dcfce7;
+  border-color: var(--success);
+  color: #166534;
+}
+
+.flash.info {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  color: #1e40af;
+}
+
+/* ===== Forms & Inputs ===== */
+form {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  max-width: 600px;
+  margin: 20px 0;
+}
+
+form > div {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--text);
+  font-size: 14px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  background: white;
+  color: var(--text);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="date"]:focus,
+input[type="number"]:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* ===== Buttons ===== */
+button,
+input[type="submit"],
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+button:hover,
+input[type="submit"]:hover,
+.btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+button:active,
+input[type="submit"]:active,
+.btn:active {
+  transform: translateY(0);
+}
+
+button.secondary {
+  background: var(--secondary);
+}
+
+button.secondary:hover {
+  background: #6d28d9;
+}
+
+button.danger {
+  background: var(--danger);
+}
+
+button.danger:hover {
+  background: #dc2626;
+}
+
+button.success {
+  background: var(--success);
+}
+
+button.success:hover {
+  background: #059669;
+}
+
+/* ===== Tables ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin: 20px 0;
+}
+
+table thead {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+}
+
+table th {
+  padding: 16px 20px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+table td {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+
+table tbody tr {
+  transition: background 0.2s ease;
+}
+
+table tbody tr:hover {
+  background: var(--light);
+}
+
+table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+table strong {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+/* ===== Lists ===== */
+ul, ol {
+  margin: 20px 0 20px 30px;
+}
+
+ul li, ol li {
+  margin-bottom: 10px;
+  color: var(--text-light);
+}
+
+.events,
+.students-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.events li,
+.students-list li {
+  background: white;
+  padding: 16px 20px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  border-left: 4px solid var(--primary);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.events li:hover,
+.students-list li:hover {
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.events li strong,
+.students-list li strong {
+  color: var(--text);
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* ===== Cards ===== */
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+/* ===== Status Badges ===== */
+.status-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-badge.present {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid var(--success);
+}
+
+.status-badge.absent {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid var(--danger);
+}
+
+.status-badge.delayed {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid var(--warning);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  header {
+    padding: 15px 20px;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  header h1 {
+    font-size: 22px;
+  }
+
+  nav {
+    width: 100%;
+    justify-content: center;
+  }
+
+  nav a {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+
+  main {
+    padding: 20px 15px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  form {
+    padding: 20px;
+  }
+
+  table {
+    font-size: 12px;
+  }
+
+  table th,
+  table td {
+    padding: 10px 12px;
+  }
+
+  .flash {
+    padding: 12px 15px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding-bottom: 20px;
+  }
+
+  header {
+    padding: 12px 15px;
+  }
+
+  header h1 {
+    font-size: 18px;
+  }
+
+  nav {
+    gap: 10px;
+  }
+
+  nav a {
+    padding: 5px 8px;
+    font-size: 12px;
+  }
+
+  nav span {
+    font-size: 12px;
+  }
+
+  nav button {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  main {
+    padding: 15px 12px;
+  }
+
+  h2 {
+    font-size: 18px;
+    margin: 15px 0 10px 0;
+  }
+
+  form {
+    padding: 15px;
+  }
+
+  button, input[type="submit"], .btn {
+    padding: 10px 16px;
+    font-size: 13px;
+    width: 100%;
+  }
+
+  table {
+    font-size: 11px;
+    overflow-x: auto;
+    display: block;
+  }
+
+  table thead {
+    display: none;
+  }
+
+  table tbody, table tr, table td {
+    display: block;
+    width: 100%;
+  }
+
+  table tr {
+    margin-bottom: 15px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  table td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+    border: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  table td:last-child {
+    border-bottom: none;
+  }
+
+  table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 10px;
+    font-weight: 600;
+    color: var(--primary);
+  }
+}
+
+/* ===== Utility Classes ===== */
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+.p-20 {
+  padding: 20px;
+}
+
+.rounded {
+  border-radius: 8px;
+}
